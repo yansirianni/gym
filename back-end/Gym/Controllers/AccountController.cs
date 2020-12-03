@@ -1,4 +1,5 @@
 ﻿using Academia.Database;
+using Gym.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -10,82 +11,85 @@ namespace Academia.Controllers
     {
         [HttpGet]
         [Route("cliente")]
-        public IActionResult GetCliente()
+        public IActionResult GetCliente([FromQuery] string cpf)
         {
             var db = new AcademiaContext();
 
-            var clientes = db.ClienteTable.ToList();
+            var cliente = db.ClienteTable.Where(c => c.cpf == cpf).FirstOrDefault();
 
-            return Ok(clientes);
+            return Ok(cliente);
+        }
+
+        [HttpGet]
+        [Route("cliente/login")]
+        public IActionResult GetCliente([FromQuery] string login, [FromQuery] string senha)
+        {
+            var db = new AcademiaContext();
+
+            var loginCliente = db.LoginTable.Where(l => l.usuario == login && l.senha == senha).FirstOrDefault();
+
+            var cliente = db.ClienteTable.Where(c => c.cliente_id == loginCliente.cliente_id).FirstOrDefault();
+
+            var cadatroCliente = new CadastroCliente(cliente, loginCliente);
+
+            return Ok(cadatroCliente);
         }
 
         [HttpPost]
         [Route("cliente")]
-        public IActionResult CadastroCliente()
-        {
-            //cadastrar cliente e cadastrar login
-
-            return null;
-        }
-
-        [HttpGet]
-        [Route("medico")]
-        public IActionResult GetMedicos()
+        public IActionResult CadastroCliente([FromBody] CadastroCliente cadastroCliente)
         {
             var db = new AcademiaContext();
 
-            var medicos = db.MedicoTable.ToList();
+            //Cria cliente ou atualiza se ja existir            
 
-            return Ok(medicos);
-        }
+            var cliente = db.ClienteTable.Where(c => c.cpf == cadastroCliente.Cpf).FirstOrDefault();
 
-        [HttpPost]
-        [Route("medico")]
-        public IActionResult CadastroMedicos()
-        {
-            //cadastrar medico e cadastrar login
+            if(cliente == null)
+            {
+                cliente = new ClienteTable(cadastroCliente);
+                db.ClienteTable.Add(cliente);                
+            }
+            else
+            {
+                var clienteId = cliente.cliente_id;
 
-            return null;
-        }
+                cliente.nome = cadastroCliente.Nome;
+                cliente.cpf = cadastroCliente.Cpf;
+                cliente.identidade = cadastroCliente.Identidade;
+                cliente.data_nascimento = cadastroCliente.DataNascimento;
+                cliente.cartao = cadastroCliente.Cartao;
+                cliente.titular_cartao = cadastroCliente.TitularCartao;
 
-        [HttpGet]
-        [Route("secretaria")]
-        public IActionResult GetSecretarias()
-        {
-            var db = new AcademiaContext();
 
-            var secretarias = db.SecretariaTable.ToList();
+                db.ClienteTable.Update(cliente);
+            }
+                    
+            db.SaveChanges();
 
-            return Ok(secretarias);
-        }
+            cliente = db.ClienteTable.Where(c => c.cpf == cadastroCliente.Cpf).FirstOrDefault();
 
-        [HttpPost]
-        [Route("secretaria")]
-        public IActionResult CadastroSecretaria()
-        {
-            //cadastrar secretaria e cadastrar login
+            //cadastra login do cliente - ou atualiza se ja existir
+                      
 
-            return null;
-        }
+            var login = db.LoginTable.Where(c => c.cliente_id == cliente.cliente_id).FirstOrDefault();
 
-        [HttpGet]
-        [Route("professor")]
-        public IActionResult GetProfessores()
-        {
-            var db = new AcademiaContext();
+            if(login == null)
+            {
+                login = new LoginTable(cadastroCliente, cliente.cliente_id);
+                db.LoginTable.Add(login);
+            }
+            else
+            {
+                login.usuario = cadastroCliente.Usuario;
+                login.senha = cadastroCliente.Senha;
 
-            var professores = db.ProfessorTable.ToList();
+                db.LoginTable.Update(login);
+            }
 
-            return Ok(professores);
-        }
+            db.SaveChanges();
 
-        [HttpPost]
-        [Route("professor")]
-        public IActionResult CadastroProfessor()
-        {
-            //cadastrar Professor e cadastrar login
-
-            return null;
-        }
+            return Ok();
+        }    
     }
 }

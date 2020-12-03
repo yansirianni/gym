@@ -1,0 +1,151 @@
+import 'package:gym/model/tabelaImcModel.dart';
+
+import 'model/tabelaHorariosModel.dart';
+
+final List<TabelaImc> tabelaImc = [
+  TabelaImc(faixa: "Abaixo de 14,9", situacao: "Extremamente abaixo do peso"),
+  TabelaImc(faixa: "Entre 15 e 15,9", situacao: "Gravemente abaixo do peso"),
+  TabelaImc(faixa: "Entre 16 e 18,5", situacao: "Abaixo do peso ideal"),
+  TabelaImc(faixa: "Entre 18,6 e 24,9", situacao: "Faixa de peso ideal"),
+  TabelaImc(faixa: "Entre 25 e 29,9", situacao: "Sobrepeso"),
+  TabelaImc(faixa: "Entre 30 e 34,9", situacao: "Obesidade grau I"),
+  TabelaImc(faixa: "Entre 35 e 39,9", situacao: "Obesidade grau II (grave)"),
+  TabelaImc(
+      faixa: "Acima ou igual a 40", situacao: "Obesidade grau III (mórbida)"),
+];
+
+final List<TabelaHorarios> horarios = [
+  TabelaHorarios(
+      horario: "Horário",
+      modSegunda: "Segunda-feira",
+      modTerca: "Terça-feira",
+      modQuarta: "Quarta-feira",
+      modQuinta: "Quinta-feira",
+      modSexta: "Sexta-feira"),
+  TabelaHorarios(
+      horario: "06:30",
+      modSegunda: "Crossfit",
+      modTerca: "Crossfit",
+      modQuarta: "Crossfit",
+      modQuinta: "Crossfit",
+      modSexta: "Crossfit"),
+  TabelaHorarios(
+      horario: "07:00",
+      modSegunda: "Spinning",
+      modTerca: "Spinning",
+      modQuarta: "Spinning",
+      modQuinta: "Spinning",
+      modSexta: "Spinning"),
+  TabelaHorarios(
+      horario: "08:00",
+      modSegunda: "Natação",
+      modTerca: "Natação",
+      modQuarta: "Natação",
+      modQuinta: "Natação",
+      modSexta: "Natação"),
+  TabelaHorarios(
+      horario: "08:30",
+      modSegunda: "Crossfit",
+      modTerca: "Crossfit",
+      modQuarta: "Crossfit",
+      modQuinta: "Crossfit",
+      modSexta: "Crossfit"),
+  TabelaHorarios(
+      horario: "09:00",
+      modSegunda: "Ritmos",
+      modTerca: "Ritmos",
+      modQuarta: "Ritmos",
+      modQuinta: "Ritmos",
+      modSexta: "Ritmos"),
+  TabelaHorarios(
+      horario: "10:00",
+      modSegunda: "Natação",
+      modTerca: "Natação",
+      modQuarta: "Natação",
+      modQuinta: "Natação",
+      modSexta: "Natação"),
+  TabelaHorarios(
+      horario: "10:15",
+      modSegunda: "Crossfit",
+      modTerca: "Crossfit",
+      modQuarta: "Crossfit",
+      modQuinta: "Crossfit",
+      modSexta: "Crossfit"),
+  TabelaHorarios(
+      horario: "12:00",
+      modSegunda: "Spinning",
+      modTerca: "Spinning",
+      modQuarta: "Spinning",
+      modQuinta: "Spinning",
+      modSexta: "Spinning"),
+  TabelaHorarios(
+      horario: "12:00",
+      modSegunda: "Crossfit",
+      modTerca: "Crossfit",
+      modQuarta: "Crossfit",
+      modQuinta: "Crossfit",
+      modSexta: "Crossfit"),
+  TabelaHorarios(
+      horario: "16:00",
+      modSegunda: "Spinning",
+      modTerca: "Spinning",
+      modQuarta: "Spinning",
+      modQuinta: "Spinning",
+      modSexta: "Spinning"),
+  TabelaHorarios(
+      horario: "17:00",
+      modSegunda: "Ritmos",
+      modTerca: "Ritmos",
+      modQuarta: "Ritmos",
+      modQuinta: "Ritmos",
+      modSexta: "Ritmos"),
+  TabelaHorarios(
+      horario: "17:00",
+      modSegunda: "Natação",
+      modTerca: "Natação",
+      modQuarta: "Natação",
+      modQuinta: "Natação",
+      modSexta: "Natação"),
+  TabelaHorarios(
+      horario: "18:00",
+      modSegunda: "Ritmos",
+      modTerca: "Ritmos",
+      modQuarta: "Ritmos",
+      modQuinta: "Ritmos",
+      modSexta: "Ritmos"),
+  TabelaHorarios(
+      horario: "18:00",
+      modSegunda: "Crossfit",
+      modTerca: "Crossfit",
+      modQuarta: "Crossfit",
+      modQuinta: "Crossfit",
+      modSexta: "Crossfit"),
+  TabelaHorarios(
+      horario: "19:00",
+      modSegunda: "Natação",
+      modTerca: "Natação",
+      modQuarta: "Natação",
+      modQuinta: "Natação",
+      modSexta: "Natação"),
+  TabelaHorarios(
+      horario: "19:00",
+      modSegunda: "Ritmos",
+      modTerca: "Ritmos",
+      modQuarta: "Ritmos",
+      modQuinta: "Ritmos",
+      modSexta: "Ritmos"),
+  TabelaHorarios(
+      horario: "20:00",
+      modSegunda: "Natação",
+      modTerca: "Natação",
+      modQuarta: "Natação",
+      modQuinta: "Natação",
+      modSexta: "Natação"),
+  TabelaHorarios(
+      horario: "20:00",
+      modSegunda: "Crossfit",
+      modTerca: "Crossfit",
+      modQuarta: "Crossfit",
+      modQuinta: "Crossfit",
+      modSexta: "Crossfit"),
+];

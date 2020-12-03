@@ -1,5 +1,7 @@
 ﻿using Academia.Database;
+using Gym.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Academia.Controllers
@@ -43,38 +45,98 @@ namespace Academia.Controllers
 
         [HttpGet]
         [Route("exame-medico")]
-        public IActionResult GetExames()
+        public IActionResult GetExame([FromQuery] string cpf)
         {
             var db = new AcademiaContext();
 
-            var exame = db.FichaMedicaTable.ToList();
+            var cliente = db.ClienteTable.Where(c => c.cpf == cpf).FirstOrDefault();
 
-            return Ok(exame);
+            if(cliente == null)
+            {
+                return Ok(null);
+            }
+
+            var exame = db.FichaMedicaTable.Where(c => c.cliente_id == cliente.cliente_id).FirstOrDefault();
+
+            var ficha = new FichaMedica(exame, cpf);
+
+            return Ok(ficha);
         }
 
         [HttpPost]
         [Route("exame-medico")]
-        public IActionResult CadastroExameMedico()
+        public IActionResult CadastroExameMedico([FromBody] FichaMedica ficha)
         {
-            return null;
+            var db = new AcademiaContext();
+
+            //procura o cliente pelo cpf 
+
+            var cliente = db.ClienteTable.Where(c => c.cpf == ficha.Cpf).FirstOrDefault();
+
+            //se não exisitir cria
+            if(cliente == null)
+            {
+                cliente = new ClienteTable(ficha.Cpf);
+
+                db.ClienteTable.Add(cliente);
+
+                db.SaveChanges();
+
+                cliente = db.ClienteTable.Where(c => c.cpf == ficha.Cpf).FirstOrDefault();
+            }
+
+            var clienteId = cliente.cliente_id;
+
+           //cria tabela e associa com o ID do cliente
+
+           var tabelaFicha = new FichaMedicaTable(ficha, clienteId);
+
+            db.FichaMedicaTable.Add(tabelaFicha);
+
+            db.SaveChanges();
+
+            return Ok();
         }
 
         [HttpGet]
         [Route("ficha-musculacao")]
-        public IActionResult GetFichaMusculacao()
+        public IActionResult GetFichaMusculacao([FromQuery] string cpf)
         {
             var db = new AcademiaContext();
 
-            var fichaMusculacao = db.FichaMusculacaoTable.ToList();
+            //procurar cliente pelo cpf para pegar o id
+
+            var cliente = db.ClienteTable.Where(c => c.cpf == cpf).FirstOrDefault();
+
+            //pegar lista de exercicios
+
+            var fichaMusculacao = db.FichaMusculacaoTable.Where(e => e.cliente_id == cliente.cliente_id).ToList();
 
             return Ok(fichaMusculacao);
         }
 
         [HttpPost]
         [Route("ficha-musculacao")]
-        public IActionResult CadastroFichaMusculacao()
+        public IActionResult CadastroFichaMusculacao([FromBody] List<FichaMusculacao> fichaMusculacao)
         {
-            return null;
+            var db = new AcademiaContext();
+
+            //procurar cliente pelo cpf para pegar o id
+
+            var cliente = db.ClienteTable.Where(c => c.cpf == fichaMusculacao.First().CpfCliente).FirstOrDefault();
+
+            //inserir fichas
+
+            foreach(var exercicio in fichaMusculacao)
+            {
+                var ficha = new FichaMusculacaoTable(exercicio, cliente.cliente_id);
+
+                db.FichaMusculacaoTable.Add(ficha);
+            }
+
+            db.SaveChanges();
+
+            return Ok();
         }        
     }
 }

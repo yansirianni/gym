@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Gym.Models;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,5 +24,17 @@ namespace Academia.Database
 		
 		[ForeignKey("professor_id")]
 		public int? professor_id { get; set; }
-	}
+
+        public LoginTable()
+        {
+
+        }
+
+        public LoginTable(CadastroCliente cliente, int cliente_id)
+        {
+            this.usuario = cliente.Usuario;
+            this.senha = cliente.Senha;
+            this.cliente_id = cliente_id;
+        }
+    }
 }

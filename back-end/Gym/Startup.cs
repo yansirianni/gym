@@ -20,6 +20,7 @@ namespace Academia
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
 
             services.AddSingleton<IAccountService, AccountService>();
 
@@ -51,6 +52,11 @@ namespace Academia
             });
 
             app.UseRouting();
+
+            //app.UseCors(option => option.AllowAnyOrigin());
+            app.UseCors(option => option.AllowAnyHeader());
+            app.UseCors(option => option.AllowAnyMethod());
+            app.UseCors(option => option.AllowCredentials());
 
             app.UseAuthorization();
 
